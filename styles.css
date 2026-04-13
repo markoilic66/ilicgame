@@ -1,0 +1,121 @@
+:root {
+  --bg: #0f172a;
+  --panel: #111827;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --valid: #1d4ed8;
+  --taken: #0b1020;
+  --taken-border: #334155;
+  --valid-border: #60a5fa;
+  --accent: #22c55e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0%, var(--bg) 55%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  background: var(--panel);
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+button {
+  border: 0;
+  background: var(--valid);
+  color: white;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#restartBtn {
+  background: #f97316;
+}
+
+.board-wrap {
+  background: color-mix(in oklab, var(--panel), black 12%);
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cell {
+  aspect-ratio: 1 / 1;
+  border: 2px solid #263042;
+  border-radius: 8px;
+  background: #101827;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.cell.valid {
+  background: color-mix(in oklab, var(--valid), black 55%);
+  border-color: var(--valid-border);
+}
+
+.cell.taken {
+  background: var(--taken);
+  border-color: var(--taken-border);
+}
+
+.cell:not(:disabled):hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
