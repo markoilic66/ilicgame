@@ -8,7 +8,7 @@ const bestScoreEl = document.getElementById('bestScore');
 const undoBtn = document.getElementById('undoBtn');
 const restartBtn = document.getElementById('restartBtn');
 
-const game = new IlicGame(6);
+const game = new IlicGame(10);
 
 function toKey(row, col) {
   return `${row}:${col}`;
