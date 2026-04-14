@@ -1,0 +1,19 @@
+{
+  "name": "ilicgame-expo",
+  "version": "1.0.0",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "expo": "~53.0.12",
+    "expo-av": "~15.1.4",
+    "react": "19.0.0",
+    "react-native": "0.79.4"
+  }
+}

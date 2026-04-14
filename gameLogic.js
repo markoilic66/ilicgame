@@ -1,24 +1,31 @@
-const BASE_POINTS = 100;
-const BEST_SCORE_KEY = 'ilicgame_best_score';
+export const BASE_POINTS = 100;
+export const BEST_SCORE_KEY = 'ilicgame_best_score';
 
-function createEmptyBoard(size) {
+export function createEmptyBoard(size) {
   return Array.from({ length: size }, () => Array(size).fill(0));
 }
 
-function cloneBoard(board) {
+export function cloneBoard(board) {
   return board.map((row) => [...row]);
 }
 
-function inBounds(size, row, col) {
+export function inBounds(size, row, col) {
   return row >= 0 && row < size && col >= 0 && col < size;
 }
 
-function getNeighborCoords(size, row, col) {
+export function getNeighborCoords(size, row, col) {
   const dirs = [
-    [1, 0],
-    [-1, 0],
-    [0, 1],
-    [0, -1],
+    // horizontal / vertical: jump over 2 cells (move 3 total)
+    [3, 0],
+    [-3, 0],
+    [0, 3],
+    [0, -3],
+
+    // diagonal: jump over 1 cell (move 2 total)
+    [2, 2],
+    [2, -2],
+    [-2, 2],
+    [-2, -2],
   ];
 
   return dirs
@@ -26,27 +33,22 @@ function getNeighborCoords(size, row, col) {
     .filter(([r, c]) => inBounds(size, r, c));
 }
 
-function calculatePointsForMove(moveNumber) {
+export function calculatePointsForMove(moveNumber) {
   if (moveNumber <= 0) {
     return 0;
   }
   return BASE_POINTS * 2 ** (moveNumber - 1);
 }
 
-function readBestScore() {
-  const value = Number(localStorage.getItem(BEST_SCORE_KEY) || 0);
-  return Number.isFinite(value) && value > 0 ? value : 0;
-}
-
-function writeBestScore(score) {
-  localStorage.setItem(BEST_SCORE_KEY, String(score));
-}
-
 export class IlicGame {
-  constructor(size = 6) {
+  constructor(size = 10, bestScore = 0) {
     this.size = size;
-    this.bestScore = readBestScore();
+    this.bestScore = bestScore;
     this.reset();
+  }
+
+  setBestScore(score) {
+    this.bestScore = Number.isFinite(score) && score > 0 ? score : 0;
   }
 
   reset() {
@@ -72,6 +74,8 @@ export class IlicGame {
   }
 
   getState() {
+    const gameOver = this.moveNumber > 0 && this.validMoves.length === 0;
+
     return {
       size: this.size,
       board: cloneBoard(this.board),
@@ -81,6 +85,9 @@ export class IlicGame {
       bestScore: this.bestScore,
       validMoves: this.validMoves.map(([r, c]) => [r, c]),
       canUndo: this.history.length > 0,
+      gameOver,
+      freedCount: this.moveNumber,
+      trappedCount: this.size * this.size - this.moveNumber,
     };
   }
 
@@ -120,7 +127,6 @@ export class IlicGame {
 
     if (this.totalScore > this.bestScore) {
       this.bestScore = this.totalScore;
-      writeBestScore(this.bestScore);
     }
 
     return true;

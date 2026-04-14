@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Ilicgame",
+    "slug": "ilicgame",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
